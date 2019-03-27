@@ -3,8 +3,6 @@ package view;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,11 +16,10 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.SwingConstants;
 import controller.Controller;
 
-public class View {
+public class View extends ViewMaster {
 
 	Controller controller = new Controller();
-
-	GridBagConstraints c = new GridBagConstraints();
+	
 	JFrame frame = new JFrame("Calculadora - JAVA");
 	Container pane = frame.getContentPane();
 
@@ -68,11 +65,6 @@ public class View {
 	JButton buttonMult = new JButton("*");
 	JButton buttonDivs = new JButton("/");
 
-	Color color1 = Color.decode("#FFFFFF"); // Branco
-	Color color2 = Color.decode("#000000"); // Preto
-	Color color3 = Color.decode("#E1E1E1"); // Cinza Claro
-	Color color4 = Color.decode("#FF6A00"); // Laranja
-
 	boolean setPoint = true;
 	boolean setResult = false;
 	int countOpenPrth = 0;
@@ -107,22 +99,7 @@ public class View {
 
 	}
 
-	public void setColorTheme() {
-
-		// Tema Claro e Destaque Laranja
-		color1 = Color.decode("#FFFFFF"); // Branco
-		color2 = Color.decode("#000000"); // Preto
-		color3 = Color.decode("#E1E1E1"); // Cinza Claro
-		color4 = Color.decode("#FF6A00"); // Laranja
-
-		setColorComponent();
-
-	}
-
 	private void setFontComponent() {
-
-		Font fontText = new Font("Verdana", Font.LAYOUT_RIGHT_TO_LEFT, 24);
-		Font fontButton = new Font("Verdana", Font.BOLD, 20);
 
 		labelEquation.setFont(fontText);
 		labelResult.setFont(fontText);
@@ -279,9 +256,6 @@ public class View {
 
 	private void addComponentPane() {
 
-		c.weightx = 0.5;
-		c.weighty = 0.5;
-
 		pane.add(labelEquation, setGridBagConstraints(1, 0, 1, 4, "HORIZONTAL"));
 		pane.add(labelResult, setGridBagConstraints(2, 0, 1, 4, "HORIZONTAL"));
 
@@ -309,23 +283,6 @@ public class View {
 		pane.add(buttonPoint, setGridBagConstraints(7, 1, 1, 1, "BOTH"));
 		pane.add(buttonEqual, setGridBagConstraints(7, 2, 1, 1, "BOTH"));
 		pane.add(buttonMore, setGridBagConstraints(7, 3, 1, 1, "BOTH"));
-
-	}
-
-	private GridBagConstraints setGridBagConstraints(int gridy, int gridx, int gridheight, int gridwidth, String text) {
-
-		c.gridy = gridy;
-		c.gridx = gridx;
-		c.gridheight = gridheight;
-		c.gridwidth = gridwidth;
-
-		if (text.equals("HORIZONTAL")) {
-			c.fill = GridBagConstraints.HORIZONTAL;
-		} else if (text.equals("BOTH")) {
-			c.fill = GridBagConstraints.BOTH;
-		}
-
-		return c;
 
 	}
 
@@ -640,6 +597,7 @@ public class View {
 			public void actionPerformed(ActionEvent e) {
 
 				StringBuilder aux;
+				boolean isOk = false;
 
 				if (setResult == true) {
 					labelEquation.setText("");
@@ -651,14 +609,16 @@ public class View {
 
 				aux = new StringBuilder(labelEquation.getText());
 				if (aux.length() > 0) {
-					if ((lastCharIsOperator(aux) == true) || (aux.charAt(aux.length() - 1) == '(')) {
+					if (((lastCharIsOperator(aux) == true) &&  (aux.charAt(aux.length() - 1) != ')')) || (aux.charAt(aux.length() - 1) == '(')) {
 						labelEquation.setText(labelEquation.getText() + "0");
+						isOk = true;
 					}
 				} else {
 					labelEquation.setText(labelEquation.getText() + "0");
+					isOk = true;
 				}
 
-				if (setPoint == true) {
+				if ((isOk == true) && (setPoint == true)) {
 					labelEquation.setText(labelEquation.getText() + ".");
 					setPoint = false;
 				}

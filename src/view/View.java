@@ -3,6 +3,7 @@ package view;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,6 +23,14 @@ public class View extends ViewMaster {
 	
 	JFrame frame = new JFrame("Calculadora - JAVA");
 	Container pane = frame.getContentPane();
+
+	Font fontText = new Font("Verdana", Font.LAYOUT_RIGHT_TO_LEFT, 24);
+	Font fontButton = new Font("Verdana", Font.BOLD, 20);
+	
+	Color color1 = Color.decode("#FFFFFF"); // Branco
+	Color color2 = Color.decode("#000000"); // Preto
+	Color color3 = Color.decode("#E1E1E1"); // Cinza Claro
+	Color color4 = Color.decode("#FF6A00"); // Laranja
 
 	JLabel labelEquation = new JLabel();
 	JLabel labelResult = new JLabel();
@@ -71,7 +80,9 @@ public class View extends ViewMaster {
 	int countClosePrth = 0;
 
 	public View() {
-		createAndShowGUI();
+		c.weightx = 0.5;
+		c.weighty = 0.5;
+	createAndShowGUI();
 	}
 
 	private void createAndShowGUI() {

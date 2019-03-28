@@ -14,19 +14,20 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import controller.Controller;
 
 public class View extends ViewMaster {
 
 	Controller controller = new Controller();
-	
+
 	JFrame frame = new JFrame("Calculadora - JAVA");
 	Container pane = frame.getContentPane();
 
 	Font fontText = new Font("Verdana", Font.LAYOUT_RIGHT_TO_LEFT, 24);
 	Font fontButton = new Font("Verdana", Font.BOLD, 20);
-	
+
 	Color color1 = Color.decode("#FFFFFF"); // Branco
 	Color color2 = Color.decode("#000000"); // Preto
 	Color color3 = Color.decode("#E1E1E1"); // Cinza Claro
@@ -51,7 +52,8 @@ public class View extends ViewMaster {
 	JRadioButtonMenuItem colorYellow = new JRadioButtonMenuItem("Amarelo");
 	JRadioButtonMenuItem colorOrange = new JRadioButtonMenuItem("Laranja");
 	JRadioButtonMenuItem colorRed = new JRadioButtonMenuItem("Vermelho");
-
+	JTextField fieldColor = new JTextField("Cor em Hex");
+	
 	JButton button1 = new JButton("1");
 	JButton button2 = new JButton("2");
 	JButton button3 = new JButton("3");
@@ -82,7 +84,7 @@ public class View extends ViewMaster {
 	public View() {
 		c.weightx = 0.5;
 		c.weighty = 0.5;
-	createAndShowGUI();
+		createAndShowGUI();
 	}
 
 	private void createAndShowGUI() {
@@ -167,7 +169,7 @@ public class View extends ViewMaster {
 		buttonLess.setPreferredSize(sizeButton);
 		buttonMult.setPreferredSize(sizeButton);
 		buttonDivs.setPreferredSize(sizeButton);
-		
+
 	}
 
 	private void setColorComponent() {
@@ -234,7 +236,7 @@ public class View extends ViewMaster {
 	}
 
 	private void addMenubarItem() {
-		
+
 		pane.add(menubar, setGridBagConstraints(0, 0, 1, 4, "BOTH"));
 		menubar.add(optionMenu);
 		optionMenu.add(preferences);
@@ -249,6 +251,8 @@ public class View extends ViewMaster {
 		setColor.add(colorYellow);
 		setColor.add(colorOrange);
 		setColor.add(colorRed);
+		setColor.addSeparator();
+		setColor.add(fieldColor);
 
 		groupTheme.add(lighTheme);
 		groupTheme.add(darkTheme);
@@ -262,7 +266,7 @@ public class View extends ViewMaster {
 		colorOrange.setSelected(true);
 		
 		optionMenu.setToolTipText("Definir Tema e Cor de Destaque");
-	
+
 	}
 
 	private void addComponentPane() {
@@ -319,13 +323,13 @@ public class View extends ViewMaster {
 		buttonLess.setFocusable(false);
 		buttonMult.setFocusable(false);
 		buttonDivs.setFocusable(false);
-		
-		//buttonEqual.
+
+		// buttonEqual.
 		buttonMore.setFocusCycleRoot(false);
 		buttonLess.setFocusCycleRoot(false);
 		buttonMult.setFocusCycleRoot(false);
 		buttonDivs.setFocusCycleRoot(false);
-		
+
 	}
 
 	private void setButtonFunction() {
@@ -620,7 +624,8 @@ public class View extends ViewMaster {
 
 				aux = new StringBuilder(labelEquation.getText());
 				if (aux.length() > 0) {
-					if (((lastCharIsOperator(aux) == true) &&  (aux.charAt(aux.length() - 1) != ')')) || (aux.charAt(aux.length() - 1) == '(')) {
+					if (((lastCharIsOperator(aux) == true) && (aux.charAt(aux.length() - 1) != ')'))
+							|| (aux.charAt(aux.length() - 1) == '(')) {
 						labelEquation.setText(labelEquation.getText() + "0");
 						isOk = true;
 					}
@@ -824,6 +829,16 @@ public class View extends ViewMaster {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				color4 = Color.decode("#FF0000"); // Vermelho
+				setColorComponent();
+			}
+		});
+
+		fieldColor.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				color4 = Color.decode(fieldColor.getText()); // Hex
 				setColorComponent();
 			}
 		});
